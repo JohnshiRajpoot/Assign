@@ -1,14 +1,19 @@
-document.querySelectorAll('.accordion-header').forEach(header => {
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+accordionHeaders.forEach(header => {
     header.addEventListener('click', () => {
-        const accordionContent = header.nextElementSibling;
+        const accordionItem = header.parentElement;
+        const isActive = accordionItem.classList.contains('active');
+        
+        document.querySelectorAll('.accordion-item').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.accordion-content').style.maxHeight = null;
+        });
 
-        header.classList.toggle('active');
-        accordionContent.classList.toggle('open');
-
-        if (accordionContent.style.maxHeight) {
-            accordionContent.style.maxHeight = null;
-        } else {
-            accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+        if (!isActive) {
+            accordionItem.classList.add('active');
+            const content = accordionItem.querySelector('.accordion-content');
+            content.style.maxHeight = content.scrollHeight + 'px';
         }
     });
 });
